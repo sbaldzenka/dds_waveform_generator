@@ -9,7 +9,7 @@
 module dds_tb
 #(
     // simulation parameters
-    parameter PERIOD_CLK      = 10.000, // 50 MHz
+    parameter PERIOD_CLK      = 16.666, // 60 MHz
     // dds parameters
     parameter DAC_WIDTH       = 8,
     parameter BRAM_ADDR_WIDTH = 6
@@ -32,25 +32,26 @@ module dds_tb
     initial begin
         #0   signal_selector = 8'h00;
 
-        #300 signal_selector = 6'b000100;
+        #300 signal_selector = 6'b000001;
     end
 
-    always #PERIOD_CLK system_clk = ~system_clk;
+    always #(PERIOD_CLK / 2) system_clk = ~system_clk;
 
     dds DUT_inst
     (
         .i_system_clk   ( system_clk    ),
         .i_system_reset ( system_reset  ),
         .i_signal_selector    ( signal_selector ),
-        //.i_freq_code    ( 32'h00000001  ), // 1 Hz
-        //.i_freq_code    ( 32'h000000FF  ), // 255 Hz
-        //.i_freq_code    ( 32'h00000100  ), // 256 Hz
-        //.i_freq_code    ( 32'h0002FAF0  ), // 195312 Hz
-        //.i_freq_code    ( 32'h0002FAF1  ), // 195313 Hz
-        //.i_freq_code    ( 32'h0007A120  ), // 500000 Hz
-        //.i_freq_code    ( 32'h000F4240  ), // 1000000 Hz
-        //.i_freq_code    ( 32'h004C4B40  ), // 5000000 Hz
-        .i_freq_code    ( 32'h00989680  ), // 10000000 Hz
+        //.i_freq_code    ( 32'h00000047  ), // 1 Hz
+        //.i_freq_code    ( 32'h000002CB  ), // 10 Hz
+        //.i_freq_code    ( 32'h00001BF6  ), // 100 Hz
+        //.i_freq_code    ( 32'h0001179E  ), // 1000 Hz
+        //.i_freq_code    ( 32'h000AEC33  ), // 10_000 Hz
+        //.i_freq_code    ( 32'h006D3A06  ), // 100_000 Hz
+        //.i_freq_code    ( 32'h04444444  ), // 1000_000 Hz
+        //.i_freq_code    ( 32'h2AAAAAAA  ), // 10_000_000 Hz
+        //.i_freq_code    ( 32'h55555555  ), // 20_000_000 Hz
+        .i_freq_code    ( 32'h80000000  ), // 30_000_000 Hz
         .o_dds          ( dds           )
     );
 

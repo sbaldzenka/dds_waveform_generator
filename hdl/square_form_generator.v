@@ -8,9 +8,7 @@
 
 module square_form_generator
 #(
-    // dds parameters
-    parameter REF_CLOCK_HZ = 32'h03938700, // 60 MHz
-    parameter DAC_WIDTH    = 8
+    parameter DAC_WIDTH = 8
 )
 (
     // global signals
@@ -24,39 +22,17 @@ module square_form_generator
 );
 
     // signals
-
-    reg [31:0] half_square_period;
-    reg [31:0] frequency_period;
-    reg [31:0] period_counter;
+    reg [31:0] phase_accum;
 
     // logic
-
     always @(posedge i_system_clk) begin
         if (i_system_reset) begin
-            frequency_period <= {32{1'b0}};
-        end else begin
-            frequency_period <= REF_CLOCK_HZ / i_freq_code;
-        end
-    end
-
-    always @(posedge i_system_clk) begin
-        if (i_system_reset) begin
-            half_square_period <= {32{1'b0}};
-        end else begin
-            half_square_period <= {1'b0, frequency_period[31:1]};
-        end
-    end
-
-    always @(posedge i_system_clk) begin
-        if (i_system_reset) begin
-            period_counter <= {32{1'b0}};
+            phase_accum <= 'b0;
         end else begin
             if (i_gen_enable) begin
-                period_counter <= period_counter + 1'b1;
-
-                if (period_counter == frequency_period - 1'b1) begin
-                    period_counter <= {32{1'b0}};
-                end
+                phase_accum <= phase_accum + i_freq_code;
+            end else begin
+                phase_accum <= 'b0;
             end
         end
     end
@@ -65,14 +41,8 @@ module square_form_generator
         if (i_system_reset) begin
             o_square_dds <= {DAC_WIDTH{1'b0}};
         end else begin
-            if (i_gen_enable) begin
-                if (period_counter == half_square_period - 1'b1) begin
-                    o_square_dds <= {DAC_WIDTH{1'b1}};
-                end
-
-                if (period_counter == frequency_period - 1'b1) begin
-                    o_square_dds <= {DAC_WIDTH{1'b0}};
-                end
+            if (phase_accum[31]) begin
+                o_square_dds <= {DAC_WIDTH{1'b1}};
             end else begin
                 o_square_dds <= {DAC_WIDTH{1'b0}};
             end

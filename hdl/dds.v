@@ -29,15 +29,12 @@ module dds
     wire                 square_generator_en;
     wire [DAC_WIDTH-1:0] square_dds;
 
-    wire                 triangle_generator_en;
-    wire [DAC_WIDTH-1:0] triangle_dds;
-
     wire                 saw_generator_en;
     wire                 saw_reverse;
     wire [DAC_WIDTH-1:0] saw_dds;
 
-    wire                 noize_generator_en = 1'b1;
-    wire [DAC_WIDTH-1:0] noize_dds;
+    wire                 triangle_generator_en;
+    wire [DAC_WIDTH-1:0] triangle_dds;
 
     wire                 sine_generator_en;
     wire [DAC_WIDTH-1:0] sine_dds;
@@ -53,8 +50,7 @@ module dds
 
     square_form_generator
     #(
-        .REF_CLOCK_HZ ( REF_CLOCK_HZ ),
-        .DAC_WIDTH    ( DAC_WIDTH    )
+        .DAC_WIDTH ( DAC_WIDTH )
     )
     square_form_generator_inst
     (
