@@ -21,12 +21,10 @@ module noize_generator
 );
 
     // signals
-
     reg  [31:0] lfsr_register;
     wire        feedback;
 
     // logic
-
     assign feedback = lfsr_register[31] ^ lfsr_register[30] ^ lfsr_register[1] ^ lfsr_register[0];
 
     always @(posedge i_system_clk) begin

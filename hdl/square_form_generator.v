@@ -8,21 +8,22 @@
 
 module square_form_generator
 #(
-    parameter DAC_WIDTH = 8
+    parameter F_CODE_WIDTH = 32,
+    parameter DAC_WIDTH    = 8
 )
 (
     // global signals
-    input  wire                 i_system_clk,
-    input  wire                 i_system_reset,
+    input  wire                    i_system_clk,
+    input  wire                    i_system_reset,
     // control signals
-    input  wire                 i_gen_enable,
-    input  wire [         31:0] i_freq_code,
+    input  wire                    i_gen_enable,
+    input  wire [F_CODE_WIDTH-1:0] i_freq_code,
     // result signals
-    output reg  [DAC_WIDTH-1:0] o_square_dds
+    output reg  [   DAC_WIDTH-1:0] o_square_dds
 );
 
     // signals
-    reg [31:0] phase_accum;
+    reg [F_CODE_WIDTH-1:0] phase_accum;
 
     // logic
     always @(posedge i_system_clk) begin
@@ -41,7 +42,7 @@ module square_form_generator
         if (i_system_reset) begin
             o_square_dds <= {DAC_WIDTH{1'b0}};
         end else begin
-            if (phase_accum[31]) begin
+            if (phase_accum[F_CODE_WIDTH-1]) begin
                 o_square_dds <= {DAC_WIDTH{1'b1}};
             end else begin
                 o_square_dds <= {DAC_WIDTH{1'b0}};

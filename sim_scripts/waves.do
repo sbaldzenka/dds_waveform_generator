@@ -10,9 +10,9 @@ add wave -noupdate -format Logic -radix HEXADECIMAL -group {testbench} /dds_tb/*
 add wave -noupdate -divider DUT
 add wave -noupdate -format Logic -radix HEXADECIMAL -group {dds} /dds_tb/DUT_inst/*
 --add wave -noupdate -format Logic -radix HEXADECIMAL -group {square_form_generator} /dds_tb/DUT_inst/square_form_generator_inst/*
---add wave -noupdate -format Logic -radix HEXADECIMAL -group {saw_form_generator} /dds_tb/DUT_inst/saw_form_generator_inst/*
+add wave -noupdate -format Logic -radix HEXADECIMAL -group {saw_form_generator} /dds_tb/DUT_inst/saw_form_generator_inst/*
 --add wave -noupdate -format Logic -radix HEXADECIMAL -group {triangle_form_generator} /dds_tb/DUT_inst/triangle_form_generator_inst/*
-add wave -noupdate -format Logic -radix HEXADECIMAL -group {noize_generator} /dds_tb/DUT_inst/noize_generator_inst/*
+--add wave -noupdate -format Logic -radix HEXADECIMAL -group {noize_generator} /dds_tb/DUT_inst/noize_generator_inst/*
 --add wave -noupdate -divider sine_form_generator
 --add wave -noupdate -format Logic -radix HEXADECIMAL -group {sine_form_generator} /dds_tb/DUT_inst/sine_form_generator_inst/*
 --add wave -noupdate -format Logic -radix HEXADECIMAL -group {address_manager} /dds_tb/DUT_inst/sine_form_generator_inst/address_manager_inst/*

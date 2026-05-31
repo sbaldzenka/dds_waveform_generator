@@ -11,17 +11,18 @@ module dds
     // dds parameters
     //parameter REF_CLOCK_HZ    = 32'h03938700, // 60_000_000 Hz
     parameter REF_CLOCK_HZ    = 32'h02FAF080, // 50_000_000 Hz
+    parameter F_CODE_WIDTH    = 32,
     parameter DAC_WIDTH       = 8,
     parameter BRAM_ADDR_WIDTH = 6
 )
 (
     // global signals
-    input  wire                 i_system_clk,
-    input  wire                 i_system_reset,
+    input  wire                    i_system_clk,
+    input  wire                    i_system_reset,
     // control
-    input  wire [          5:0] i_signal_selector,
-    input  wire [         31:0] i_freq_code,
-    output wire [DAC_WIDTH-1:0] o_dds
+    input  wire [             5:0] i_signal_selector,
+    input  wire [F_CODE_WIDTH-1:0] i_freq_code,
+    output wire [   DAC_WIDTH-1:0] o_dds
 );
 
     // signals
@@ -50,7 +51,8 @@ module dds
 
     square_form_generator
     #(
-        .DAC_WIDTH ( DAC_WIDTH )
+        .F_CODE_WIDTH ( F_CODE_WIDTH ),
+        .DAC_WIDTH    ( DAC_WIDTH    )
     )
     square_form_generator_inst
     (
@@ -77,7 +79,7 @@ module dds
 
     saw_form_generator
     #(
-        .REF_CLOCK_HZ ( REF_CLOCK_HZ ),
+        .F_CODE_WIDTH ( F_CODE_WIDTH ),
         .DAC_WIDTH    ( DAC_WIDTH    )
     )
     saw_form_generator_inst
