@@ -92,8 +92,7 @@ module dds
 
     noize_generator
     #(
-        .REF_CLOCK_HZ ( REF_CLOCK_HZ ),
-        .DAC_WIDTH    ( DAC_WIDTH    )
+        .DAC_WIDTH ( DAC_WIDTH )
     )
     noize_generator_inst
     (

@@ -32,7 +32,7 @@ module dds_tb
     initial begin
         #0   signal_selector = 8'h00;
 
-        #300 signal_selector = 6'b000001;
+        #300 signal_selector = 6'b010000;
     end
 
     always #(PERIOD_CLK / 2) system_clk = ~system_clk;
@@ -48,10 +48,10 @@ module dds_tb
         //.i_freq_code    ( 32'h0001179E  ), // 1000 Hz
         //.i_freq_code    ( 32'h000AEC33  ), // 10_000 Hz
         //.i_freq_code    ( 32'h006D3A06  ), // 100_000 Hz
-        //.i_freq_code    ( 32'h04444444  ), // 1000_000 Hz
+        .i_freq_code    ( 32'h04444444  ), // 1000_000 Hz
         //.i_freq_code    ( 32'h2AAAAAAA  ), // 10_000_000 Hz
         //.i_freq_code    ( 32'h55555555  ), // 20_000_000 Hz
-        .i_freq_code    ( 32'h80000000  ), // 30_000_000 Hz
+        //.i_freq_code    ( 32'h80000000  ), // 30_000_000 Hz
         .o_dds          ( dds           )
     );
 

@@ -8,9 +8,7 @@
 
 module noize_generator
 #(
-    // dds parameters
-    parameter REF_CLOCK_HZ = 32'h03938700, // 60 MHz
-    parameter DAC_WIDTH    = 8
+    parameter DAC_WIDTH = 8
 )
 (
     // global signals
@@ -24,18 +22,22 @@ module noize_generator
 
     // signals
 
-    reg  [15:0] lfsr_register;
+    reg  [31:0] lfsr_register;
     wire        feedback;
 
     // logic
 
-    assign feedback = lfsr_register[15] ^ lfsr_register[14] ^ lfsr_register[1] ^ lfsr_register[0];
+    assign feedback = lfsr_register[31] ^ lfsr_register[30] ^ lfsr_register[1] ^ lfsr_register[0];
 
     always @(posedge i_system_clk) begin
         if (i_system_reset) begin
-            lfsr_register <= {16{1'b1}};
+            lfsr_register <= {32{1'b1}};
         end else begin
-            lfsr_register <= {lfsr_register[14:0], feedback};
+            if (i_gen_enable) begin
+                lfsr_register <= {lfsr_register[30:0], feedback};
+            end else begin
+                lfsr_register <= {32{1'b1}};
+            end
         end
     end
 
