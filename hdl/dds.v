@@ -8,12 +8,10 @@
 
 module dds
 #(
-    // dds parameters
-    //parameter REF_CLOCK_HZ    = 32'h03938700, // 60_000_000 Hz
-    parameter REF_CLOCK_HZ    = 32'h02FAF080, // 50_000_000 Hz
     parameter F_CODE_WIDTH    = 32,
     parameter DAC_WIDTH       = 8,
-    parameter BRAM_ADDR_WIDTH = 6
+    parameter BRAM_ADDR_WIDTH = 6,
+    parameter SINE_TABLE_FILE = "../tables/sin_table_64.mem"
 )
 (
     // global signals
@@ -65,7 +63,7 @@ module dds
 
     triangle_form_generator
     #(
-        .REF_CLOCK_HZ ( REF_CLOCK_HZ ),
+        .F_CODE_WIDTH ( F_CODE_WIDTH ),
         .DAC_WIDTH    ( DAC_WIDTH    )
     )
     triangle_form_generator_inst
@@ -106,8 +104,10 @@ module dds
 
     sine_form_generator
     #(
-        .REF_CLOCK_HZ ( REF_CLOCK_HZ ),
-        .DAC_WIDTH    ( DAC_WIDTH    )
+        .F_CODE_WIDTH    ( F_CODE_WIDTH    ),
+        .DAC_WIDTH       ( DAC_WIDTH       ),
+        .BRAM_ADDR_WIDTH ( BRAM_ADDR_WIDTH ),
+        .SINE_TABLE_FILE ( SINE_TABLE_FILE )
     )
     sine_form_generator_inst
     (

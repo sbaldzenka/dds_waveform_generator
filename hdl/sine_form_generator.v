@@ -8,23 +8,21 @@
 
 module sine_form_generator
 #(
-    // dds parameters
-    parameter REF_CLOCK_HZ = 32'h03938700, // 60 MHz
-    parameter DAC_WIDTH    = 8
+    parameter F_CODE_WIDTH    = 32,
+    parameter DAC_WIDTH       = 8,
+    parameter BRAM_ADDR_WIDTH = 6,
+    parameter SINE_TABLE_FILE = "../tables/sin_table_64.mem"
 )
 (
     // global signals
-    input  wire                 i_system_clk,
-    input  wire                 i_system_reset,
+    input  wire                    i_system_clk,
+    input  wire                    i_system_reset,
     // control signals
-    input  wire                 i_gen_enable,
-    input  wire [         31:0] i_freq_code,
+    input  wire                    i_gen_enable,
+    input  wire [F_CODE_WIDTH-1:0] i_freq_code,
     // result signals
-    output wire [DAC_WIDTH-1:0] o_sine_dds
+    output wire [   DAC_WIDTH-1:0] o_sine_dds
 );
-
-    localparam BRAM_ADDR_WIDTH = 6;
-    localparam SINE_TABLE_FILE = "../tables/sin_table_64.mem";
 
     // signals
     wire [BRAM_ADDR_WIDTH-1:0] bram_address;
@@ -33,7 +31,7 @@ module sine_form_generator
 
     address_manager
     #(
-        .REF_CLOCK_HZ    ( REF_CLOCK_HZ    ),
+        .F_CODE_WIDTH    ( F_CODE_WIDTH    ),
         .BRAM_ADDR_WIDTH ( BRAM_ADDR_WIDTH )
     )
     address_manager_inst

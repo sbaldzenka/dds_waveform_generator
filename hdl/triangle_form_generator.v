@@ -8,8 +8,7 @@
 
 module triangle_form_generator
 #(
-    // dds parameters
-    parameter REF_CLOCK_HZ = 32'h03938700, // 60 MHz
+    parameter F_CODE_WIDTH = 32,
     parameter DAC_WIDTH    = 8
 )
 (
@@ -24,53 +23,32 @@ module triangle_form_generator
 );
 
     // signals
-
-    reg [31:0] half_triangle_period;
-    reg [31:0] quant_step;
-    reg [31:0] frequency_period;
-    reg [31:0] period_counter;
+    reg [F_CODE_WIDTH-1:0] phase_accum;
+    reg                    half_period_flag;
+    reg [   DAC_WIDTH-1:0] saw_dds;
 
     // logic
-
     always @(posedge i_system_clk) begin
         if (i_system_reset) begin
-            frequency_period <= {32{1'b0}};
-        end else begin
-            frequency_period <= REF_CLOCK_HZ / i_freq_code;
-        end
-    end
-
-    always @(posedge i_system_clk) begin
-        if (i_system_reset) begin
-            half_triangle_period <= {32{1'b0}};
-        end else begin
-            half_triangle_period <= {1'b0, frequency_period[31:1]};
-        end
-    end
-
-    always @(posedge i_system_clk) begin
-        if (i_system_reset) begin
-            quant_step <= {32{1'b0}};
-        end else begin
-            if (half_triangle_period >= {DAC_WIDTH{1'b1}}) begin
-                quant_step <= half_triangle_period / {DAC_WIDTH{1'b1}};
-            end else begin
-                quant_step <= {DAC_WIDTH{1'b1}} / half_triangle_period;
-            end
-        end
-    end
-
-    always @(posedge i_system_clk) begin
-        if (i_system_reset) begin
-            period_counter <= {32{1'b0}};
+            phase_accum <= 'b0;
         end else begin
             if (i_gen_enable) begin
-                period_counter <= period_counter + 1'b1;
-
-                if (period_counter == frequency_period - 1'b1) begin
-                    period_counter <= {32{1'b0}};
-                end
+                phase_accum <= phase_accum + i_freq_code;
+            end else begin
+                phase_accum <= 'b0;
             end
+        end
+    end
+
+    always @(posedge i_system_clk) begin
+        half_period_flag <= phase_accum[F_CODE_WIDTH-1];
+    end
+
+    always @(posedge i_system_clk) begin
+        if (i_system_reset) begin
+            saw_dds <= {DAC_WIDTH{1'b0}};
+        end else begin
+            saw_dds <= phase_accum[F_CODE_WIDTH-1:F_CODE_WIDTH-DAC_WIDTH];
         end
     end
 
@@ -78,18 +56,10 @@ module triangle_form_generator
         if (i_system_reset) begin
             o_triangle_dds <= {DAC_WIDTH{1'b0}};
         end else begin
-            if (i_gen_enable) begin
-                if (period_counter == frequency_period - 1'b1) begin
-                    o_triangle_dds <= {DAC_WIDTH{1'b0}};
-                end else if (period_counter < half_triangle_period) begin
-                    o_triangle_dds <= o_triangle_dds + quant_step;
-                end else if (period_counter == half_triangle_period - 1'b1) begin
-                    o_triangle_dds <= {DAC_WIDTH{1'b1}};
-                end else if (period_counter > half_triangle_period - 1'b1) begin
-                    o_triangle_dds <= o_triangle_dds - quant_step;
-                end
+            if (half_period_flag) begin
+                o_triangle_dds <= ~{saw_dds[DAC_WIDTH-2:0], 1'b0};
             end else begin
-                o_triangle_dds <= {DAC_WIDTH{1'b0}};
+                o_triangle_dds <= {saw_dds[DAC_WIDTH-2:0], 1'b0};
             end
         end
     end

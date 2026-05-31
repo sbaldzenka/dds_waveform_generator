@@ -23,8 +23,6 @@ module saw_form_generator
     output reg  [   DAC_WIDTH-1:0] o_saw_dds
 );
 
-    // local parameters
-
     // signals
     reg [F_CODE_WIDTH-1:0] phase_accum;
     reg [   DAC_WIDTH-1:0] saw_dds;
