@@ -48,9 +48,9 @@ module dds_tb
         //.i_freq_code    ( 32'h00001BF6  ), // 100 Hz
         //.i_freq_code    ( 32'h0001179E  ), // 1000 Hz
         //.i_freq_code    ( 32'h000AEC33  ), // 10_000 Hz
-        //.i_freq_code    ( 32'h006D3A06  ), // 100_000 Hz
+        .i_freq_code    ( 32'h006D3A06  ), // 100_000 Hz
         //.i_freq_code    ( 32'h04444444  ), // 1000_000 Hz
-        .i_freq_code    ( 32'h2AAAAAAA  ), // 10_000_000 Hz
+        //.i_freq_code    ( 32'h2AAAAAAA  ), // 10_000_000 Hz
         .o_dds          ( dds           )
     );
 

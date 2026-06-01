@@ -9,9 +9,9 @@
 module dds
 #(
     parameter F_CODE_WIDTH    = 32,
-    parameter DAC_WIDTH       = 8,
-    parameter BRAM_ADDR_WIDTH = 6,
-    parameter SINE_TABLE_FILE = "../tables/sin_table_64.mem"
+    parameter DAC_WIDTH       = 10,
+    parameter BRAM_ADDR_WIDTH = 8,
+    parameter SINE_TABLE_FILE = "../tables/sin_table_10b_256p.mem"
 )
 (
     // global signals
@@ -24,7 +24,6 @@ module dds
 );
 
     // signals
-
     wire                 square_generator_en;
     wire [DAC_WIDTH-1:0] square_dds;
 
@@ -39,7 +38,6 @@ module dds
     wire [DAC_WIDTH-1:0] sine_dds;
 
     // logic
-
     assign square_generator_en   = i_signal_selector[0];
     assign triangle_generator_en = i_signal_selector[1];
     assign saw_generator_en      = i_signal_selector[2] | i_signal_selector[3];
