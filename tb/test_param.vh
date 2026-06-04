@@ -17,8 +17,8 @@
     `define DAC_WIDTH       10
     `define BRAM_ADDR_WIDTH 8
 
-    //`define SIN_TABLE       "../tables/sin_table_8b_64p.mem"
-    `define SIN_TABLE       "../tables/sin_table_10b_256p.mem"
+    //`define SIN_TABLE       "../src/tables/sin_table_8b_64p.mem"
+    `define SIN_TABLE       "../src/tables/sin_table_10b_256p.mem"
 
     // Frequency codes for Fclk = 60 MHz and F_CODE_WIDTH = 32
     // [ --> FREQ_CODE = (Fout*2^F_CODE_WIDTH)/Fclk ]
@@ -34,11 +34,11 @@
 
     // Waveforms
     //---------------------------------------------------------
-    `define WAVEFORM 6'b000001 // square
+    //`define WAVEFORM 6'b000001 // square
     //`define WAVEFORM 6'b000010 // triangle
     //`define WAVEFORM 6'b000100 // saw
     //`define WAVEFORM 6'b001000 // saw reverse
     //`define WAVEFORM 6'b010000 // noise
-    //`define WAVEFORM 6'b100000 // sine
+    `define WAVEFORM 6'b100000 // sine
 
 `endif

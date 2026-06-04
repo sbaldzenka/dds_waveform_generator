@@ -77,10 +77,10 @@ module dds_waveform_generator
     )
     amp_ctrl_inst
     (
-        .i_system_clk   ( i_system_clk   ),
-        .i_amp_value    ( i_amp_value    ),
-        .i_signal       ( raw_dds        ),
-        .o_signal       ( o_dds          )
+        .i_system_clk ( i_system_clk   ),
+        .i_amp_value  ( i_amp_value    ),
+        .i_signal     ( raw_dds        ),
+        .o_signal     ( o_dds          )
     );
 
 endmodule
