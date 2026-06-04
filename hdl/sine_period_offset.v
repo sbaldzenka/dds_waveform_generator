@@ -1,8 +1,9 @@
-// project : dds
-// version : v1.0
-// data    : 30.05.2026
-// author  : siarhei baldzenka
-// e-mail  : sbaldzenka@proton.me
+// project     : dds_waveform_generator
+// version     : 1.0
+// data        : 04.06.2026
+// author      : siarhei baldzenka
+// e-mail      : sbaldzenka@proton.me
+// description : https://github.com/sbaldzenka/dds_waveform_generator
 
 module sine_period_offset
 #(
@@ -27,8 +28,7 @@ module sine_period_offset
         zero_crossing_ff <= i_zero_crossing;
 
         if (i_system_reset) begin
-            o_dds_data[  DAC_WIDTH-1] <= 1'b0;
-            o_dds_data[DAC_WIDTH-2:0] <= 'b1;
+            o_dds_data <= 'b0;
         end else begin
             if (zero_crossing_ff) begin
                 o_dds_data <= i_dds_data;

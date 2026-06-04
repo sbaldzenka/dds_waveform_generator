@@ -1,8 +1,9 @@
-// project : dds
-// version : v1.0
-// data    : 27.10.2024
-// author  : siarhei baldzenka
-// e-mail  : sbaldzenka@proton.me
+// project     : dds_waveform_generator
+// version     : 1.0
+// data        : 04.06.2026
+// author      : siarhei baldzenka
+// e-mail      : sbaldzenka@proton.me
+// description : https://github.com/sbaldzenka/dds_waveform_generator
 
 module address_manager
 #(

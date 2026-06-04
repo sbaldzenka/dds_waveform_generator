@@ -1,8 +1,9 @@
-// project : dds
-// version : v1.0
-// data    : 27.10.2024
-// author  : siarhei baldzenka
-// e-mail  : sbaldzenka@proton.me
+// project     : dds_waveform_generator
+// version     : 1.0
+// data        : 04.06.2026
+// author      : siarhei baldzenka
+// e-mail      : sbaldzenka@proton.me
+// description : https://github.com/sbaldzenka/dds_waveform_generator
 
 `timescale 1ns/100ps
 
@@ -20,29 +21,27 @@ module dds
     // control
     input  wire [             5:0] i_signal_selector,
     input  wire [F_CODE_WIDTH-1:0] i_freq_code,
-    output wire [   DAC_WIDTH-1:0] o_dds
+    output wire [   DAC_WIDTH-1:0] o_noise_dds,
+    output wire [   DAC_WIDTH-1:0] o_square_dds,
+    output wire [   DAC_WIDTH-1:0] o_saw_dds,
+    output wire [   DAC_WIDTH-1:0] o_triangle_dds,
+    output wire [   DAC_WIDTH-1:0] o_sine_dds
 );
 
     // signals
     wire                 square_generator_en;
-    wire [DAC_WIDTH-1:0] square_dds;
-
     wire                 saw_generator_en;
     wire                 saw_reverse;
-    wire [DAC_WIDTH-1:0] saw_dds;
-
     wire                 triangle_generator_en;
-    wire [DAC_WIDTH-1:0] triangle_dds;
-
     wire                 sine_generator_en;
-    wire [DAC_WIDTH-1:0] sine_dds;
+    wire                 noise_generator_en;
 
     // logic
     assign square_generator_en   = i_signal_selector[0];
     assign triangle_generator_en = i_signal_selector[1];
     assign saw_generator_en      = i_signal_selector[2] | i_signal_selector[3];
     assign saw_reverse           = i_signal_selector[3];
-    assign noize_generator_en    = i_signal_selector[4];
+    assign noise_generator_en    = i_signal_selector[4];
     assign sine_generator_en     = i_signal_selector[5];
 
     square_form_generator
@@ -56,7 +55,7 @@ module dds
         .i_system_reset ( i_system_reset      ),
         .i_gen_enable   ( square_generator_en ),
         .i_freq_code    ( i_freq_code         ),
-        .o_square_dds   ( square_dds          )
+        .o_square_dds   ( o_square_dds        )
     );
 
     triangle_form_generator
@@ -70,7 +69,7 @@ module dds
         .i_system_reset ( i_system_reset        ),
         .i_gen_enable   ( triangle_generator_en ),
         .i_freq_code    ( i_freq_code           ),
-        .o_triangle_dds ( triangle_dds          )
+        .o_triangle_dds ( o_triangle_dds        )
     );
 
     saw_form_generator
@@ -85,19 +84,19 @@ module dds
         .i_saw_reverse  ( saw_reverse      ),
         .i_gen_enable   ( saw_generator_en ),
         .i_freq_code    ( i_freq_code      ),
-        .o_saw_dds      ( saw_dds          )
+        .o_saw_dds      ( o_saw_dds        )
     );
 
-    noize_generator
+    noise_generator
     #(
         .DAC_WIDTH ( DAC_WIDTH )
     )
-    noize_generator_inst
+    noise_generator_inst
     (
         .i_system_clk   ( i_system_clk       ),
         .i_system_reset ( i_system_reset     ),
-        .i_gen_enable   ( noize_generator_en ),
-        .o_noize_dds    ( noize_dds          )
+        .i_gen_enable   ( noise_generator_en ),
+        .o_noise_dds    ( o_noise_dds        )
     );
 
     sine_form_generator
@@ -113,7 +112,7 @@ module dds
         .i_system_reset ( i_system_reset     ),
         .i_gen_enable   ( sine_generator_en  ),
         .i_freq_code    ( i_freq_code        ),
-        .o_sine_dds     ( sine_dds           )
+        .o_sine_dds     ( o_sine_dds         )
     );
 
 endmodule

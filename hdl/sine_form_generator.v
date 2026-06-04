@@ -1,8 +1,9 @@
-// project : dds
-// version : v1.0
-// data    : 31.05.2026
-// author  : siarhei baldzenka
-// e-mail  : sbaldzenka@proton.me
+// project     : dds_waveform_generator
+// version     : 1.0
+// data        : 04.06.2026
+// author      : siarhei baldzenka
+// e-mail      : sbaldzenka@proton.me
+// description : https://github.com/sbaldzenka/dds_waveform_generator
 
 `timescale 1ns/100ps
 
