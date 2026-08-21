@@ -2,7 +2,7 @@
 
 ## Description
 
-Verilog IP-core for DDS waveform generations by FPGA.
+Verilog IP-core for waveform generations with unsigned output.
 
 IP-core support:
 
