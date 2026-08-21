@@ -1,5 +1,5 @@
 # dds_waveform_generator
-
+> **version: 1.0**
 ## Description
 
 Verilog IP-core for waveform generations with unsigned output.
